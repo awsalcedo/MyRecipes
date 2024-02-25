@@ -100,7 +100,7 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
                     .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = recipe.name,
                 style = MaterialTheme.typography.displayLarge,
@@ -109,7 +109,6 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 color = Color.Black
             )
-            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
