@@ -11,9 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -85,7 +91,7 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
         shape = MaterialTheme.shapes.medium,
         //backgroundColor = Color.White
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column{
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
@@ -100,17 +106,10 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.displayLarge,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
                 color = Color.Black
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = recipe.description,
-                style = MaterialTheme.typography.bodySmall,
-                fontSize = 16.sp,
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.Black
-            )
         }
     }
 }
