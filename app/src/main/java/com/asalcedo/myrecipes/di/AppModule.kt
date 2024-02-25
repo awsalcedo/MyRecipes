@@ -1,7 +1,7 @@
 package com.asalcedo.myrecipes.di
 
 import com.asalcedo.myrecipes.BuildConfig.BASE_URL
-import com.asalcedo.myrecipes.data.network.RecipeRepositoryImpl
+import com.asalcedo.myrecipes.data.RecipeRepositoryImpl
 import com.asalcedo.myrecipes.data.network.RecipeService
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import dagger.Module
