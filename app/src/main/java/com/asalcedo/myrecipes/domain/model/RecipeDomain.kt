@@ -1,7 +1,5 @@
 package com.asalcedo.myrecipes.domain.model
 
-import androidx.annotation.DrawableRes
-
 
 /****
  * Project: MyRecipes
@@ -13,7 +11,7 @@ data class RecipeDomain(
     val id: Int,
     val name: String,
     val description: String,
-    val imageResId: String,
+    val image: String,
     val ingredients: List<IngredientDomain>,
     val steps: List<StepDomain>,
     val originLatitude: Double,

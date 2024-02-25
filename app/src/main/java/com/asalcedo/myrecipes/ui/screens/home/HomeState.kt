@@ -10,6 +10,6 @@ import com.asalcedo.myrecipes.domain.model.RecipeDomain
  ***/
 sealed class HomeState {
     data object Loading : HomeState()
-    data class Success(val recipes: List<RecipeDomain>) : HomeState()
+    data class Success(val recipes: List<RecipeDomain> = listOf()) : HomeState()
     data class Error(val message: String) : HomeState()
 }

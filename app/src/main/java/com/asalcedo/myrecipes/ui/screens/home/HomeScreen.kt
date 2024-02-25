@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asalcedo.myrecipes.R
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 
 /****
@@ -37,7 +38,6 @@ import com.asalcedo.myrecipes.domain.model.RecipeDomain
  * All rights reserve 2022.
  ***/
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
@@ -67,8 +67,8 @@ fun MyCircularProgressIndicator() {
 
 @Composable
 fun RecipeList(recipes: List<RecipeDomain>) {
-    LazyColumn{
-        items(recipes){recipe ->
+    LazyColumn {
+        items(recipes) { recipe ->
             RecipeItem(recipe = recipe)
         }
     }
@@ -76,6 +76,7 @@ fun RecipeList(recipes: List<RecipeDomain>) {
 
 @Composable
 fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
+    val imageId = getImageId(recipe.image)
     Card(
         modifier = modifier
             .clickable { }
@@ -86,14 +87,14 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
         //backgroundColor = Color.White
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            /*Image(
-                painter = painterResource(id = recipe.imageResId),
+            Image(
+                painter = painterResource(id = imageId),
                 contentDescription = null,
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth(),
                 contentScale = ContentScale.Crop
-            )*/
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = recipe.name,
@@ -112,5 +113,21 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
                 color = Color.Black
             )
         }
+    }
+}
+
+fun getImageId(image: String): Int {
+    return when (image) {
+        "spaghetti_carbonara" -> R.drawable.spaghetti_carbonara
+        "chicken_tikka_masala" -> R.drawable.chicken_tikka_masala
+        "margherita_pizza" -> R.drawable.margherita_pizza
+        "caesar_salad" -> R.drawable.caesar_salad
+        "chocolate_chip_cookies" -> R.drawable.chocolate_chip_cookies
+        "guacamole" -> R.drawable.guacamole
+        "sushi_rolls" -> R.drawable.sushi_rolls
+        "beef_tacos" -> R.drawable.beef_tacos
+        "beef_stir_fry" -> R.drawable.beef_stir_fry
+        "chocolate_cake" -> R.drawable.chocolate_cake
+        else -> R.drawable.spaghetti_carbonara
     }
 }

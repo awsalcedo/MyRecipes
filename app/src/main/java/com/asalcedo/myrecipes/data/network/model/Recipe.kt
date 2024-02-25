@@ -16,8 +16,8 @@ data class Recipe(
     val name: String,
     @SerializedName("description")
     val description: String,
-    @SerializedName("imageResId")
-    val imageResId: String,
+    @SerializedName("image")
+    val image: String,
     @SerializedName("ingredients")
     val ingredients: List<Ingredient>,
     @SerializedName("steps")
@@ -32,7 +32,7 @@ fun Recipe.toDomain() = RecipeDomain(
     id = id,
     name = name,
     description = description,
-    imageResId = imageResId,
+    image = image,
     ingredients = ingredients.map { it.toDomain() },
     steps = steps.map { it.toDomain() },
     originLatitude = originLatitude,
