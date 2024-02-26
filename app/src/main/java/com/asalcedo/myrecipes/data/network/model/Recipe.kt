@@ -1,5 +1,6 @@
 package com.asalcedo.myrecipes.data.network.model
 
+import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.google.gson.annotations.SerializedName
 
@@ -35,6 +36,16 @@ fun Recipe.toDomain() = RecipeDomain(
     image = image,
     ingredients = ingredients.map { it.toDomain() },
     steps = steps.map { it.toDomain() },
+    originLatitude = originLatitude,
+    originLongitude = originLongitude
+)
+
+fun Recipe.toEntity() = RecipeEntity(
+    name = name,
+    description = description,
+    image = image,
+    //ingredients = ingredients.map { it.toEntity() },
+    //steps = steps.map { it.toEntity() },
     originLatitude = originLatitude,
     originLongitude = originLongitude
 )

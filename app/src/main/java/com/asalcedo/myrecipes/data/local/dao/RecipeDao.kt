@@ -1,8 +1,12 @@
 package com.asalcedo.myrecipes.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.asalcedo.myrecipes.data.local.entities.IngredientEntity
 import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
+import com.asalcedo.myrecipes.data.local.entities.StepEntity
 
 /****
  * Project: MyRecipes
@@ -13,5 +17,13 @@ import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
 @Dao
 interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE name LIKE '%' || :recipeName || '%'")
-    fun searchRecipesByName(recipeName: String): List<RecipeEntity>
+    suspend fun searchRecipesByName(recipeName: String): List<RecipeEntity>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    //suspend fun saveRecipes(recipes: List<RecipeEntity>)
+    suspend fun saveRecipes(recipe: RecipeEntity): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveIngredients(ingredients: List<IngredientEntity>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveSteps(steps: List<StepEntity>)
+
 }

@@ -2,6 +2,7 @@ package com.asalcedo.myrecipes.di
 
 import com.asalcedo.myrecipes.BuildConfig.BASE_URL
 import com.asalcedo.myrecipes.data.RecipeRepositoryImpl
+import com.asalcedo.myrecipes.data.local.dao.RecipeDao
 import com.asalcedo.myrecipes.data.network.RecipeService
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import dagger.Module
@@ -45,8 +46,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRecipeRepository(service: RecipeService): RecipeRepository {
-        return RecipeRepositoryImpl(service)
+    fun provideRecipeRepository(service: RecipeService, dao: RecipeDao): RecipeRepository {
+        return RecipeRepositoryImpl(service, dao)
     }
 
 }

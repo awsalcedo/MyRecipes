@@ -1,5 +1,6 @@
 package com.asalcedo.myrecipes.data.network.model
 
+import com.asalcedo.myrecipes.data.local.entities.IngredientEntity
 import com.asalcedo.myrecipes.domain.model.IngredientDomain
 import com.google.gson.annotations.SerializedName
 
@@ -19,6 +20,13 @@ data class Ingredient(
 )
 
 fun Ingredient.toDomain() = IngredientDomain(
+    name = name,
+    quantity = quantity,
+    unit = unit
+)
+
+fun Ingredient.toEntity() = IngredientEntity(
+    recipeId = 0,
     name = name,
     quantity = quantity,
     unit = unit

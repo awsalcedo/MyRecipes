@@ -1,5 +1,6 @@
 package com.asalcedo.myrecipes.data.network.model
 
+import com.asalcedo.myrecipes.data.local.entities.StepEntity
 import com.asalcedo.myrecipes.domain.model.StepDomain
 import com.google.gson.annotations.SerializedName
 
@@ -17,6 +18,12 @@ data class Step(
 )
 
 fun Step.toDomain() = StepDomain(
+    number = number,
+    description = description
+)
+
+fun Step.toEntity() = StepEntity(
+    recipeId = 0,
     number = number,
     description = description
 )
