@@ -44,8 +44,8 @@ fun Recipe.toEntity() = RecipeEntity(
     name = name,
     description = description,
     image = image,
-    //ingredients = ingredients.map { it.toEntity() },
-    //steps = steps.map { it.toEntity() },
+    ingredients = ingredients.map { it.toEntity() },
+    steps = steps.map { it.toEntity() },
     originLatitude = originLatitude,
     originLongitude = originLongitude
 )

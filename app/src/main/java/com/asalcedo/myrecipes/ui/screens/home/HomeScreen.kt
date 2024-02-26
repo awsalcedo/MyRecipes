@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -36,9 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.fragment.findNavController
 import com.asalcedo.myrecipes.R
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
+import com.asalcedo.myrecipes.navigation.NavigationRoute
 
 /****
  * Project: MyRecipes
@@ -96,7 +99,7 @@ fun RecipeList(recipes: List<RecipeDomain>) {
         active = active,
         onActiveChange = { active = it },
         modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(8.dp),
-        placeholder = { Text(text = "Search recipes...") },
+        placeholder = { Text(text = "Search a recipe") },
     ){
         if (query.isNotEmpty()){
             val filterRecipes = recipes.filter { it.name.contains(query, ignoreCase = true) }
@@ -126,6 +129,7 @@ fun RecipeList(recipes: List<RecipeDomain>) {
 fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
     val imageId = getImageId(recipe.image)
     val ctxs = LocalContext.current
+    val detailRecipeNavController = rememberNavController()
 
     Card(
         modifier = modifier
@@ -135,8 +139,10 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
         shape = MaterialTheme.shapes.medium,
         onClick = {
             Toast.makeText(ctxs, recipe.name, Toast.LENGTH_SHORT).show()
+            //detailRecipeNavController.navigate(NavigationRoute.Detail().route)
             //findNavController(ctxs).navigate("recipe/${recipe.id}")
-        }
+        },
+        elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column {
             Image(

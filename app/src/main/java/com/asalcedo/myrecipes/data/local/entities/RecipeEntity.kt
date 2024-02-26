@@ -16,6 +16,8 @@ data class RecipeEntity(
     val name: String,
     val description: String,
     val image: String,
+    val ingredients: List<IngredientEntity>,
+    val steps: List<StepEntity>,
     val originLatitude: Double,
     val originLongitude: Double
 )

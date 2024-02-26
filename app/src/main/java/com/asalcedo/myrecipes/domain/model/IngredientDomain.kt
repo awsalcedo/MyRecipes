@@ -1,5 +1,7 @@
 package com.asalcedo.myrecipes.domain.model
 
+import com.asalcedo.myrecipes.data.local.entities.IngredientEntity
+
 /****
  * Project: MyRecipes
  * From: com.asalcedo.myrecipes.domain.model
@@ -10,4 +12,10 @@ data class IngredientDomain(
     val name: String,
     val quantity: String,
     val unit: String
+)
+
+fun IngredientEntity.toDomain() = IngredientDomain(
+    name = name,
+    quantity = quantity,
+    unit = unit
 )

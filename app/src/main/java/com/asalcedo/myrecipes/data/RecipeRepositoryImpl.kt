@@ -10,6 +10,7 @@ import com.asalcedo.myrecipes.data.network.model.toDomain
 import com.asalcedo.myrecipes.data.network.model.toEntity
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
+import com.asalcedo.myrecipes.domain.model.toDomain
 import javax.inject.Inject
 
 /****
@@ -33,11 +34,15 @@ class RecipeRepositoryImpl @Inject constructor(
         return null
     }
 
-    /*private suspend fun saveRecipes(recipes: List<Recipe>) {
-        dao.saveRecipes(recipes.map { it.toEntity() })
-    }*/
-
     private suspend fun saveRecipes(recipes: List<Recipe>) {
+        dao.saveRecipes(recipes.map { it.toEntity() })
+    }
+
+    override suspend fun getRecipesFromDatabase(): List<RecipeDomain> {
+        return dao.getRecipes().map { it.toDomain() }
+    }
+
+    /*private suspend fun saveRecipes(recipes: List<Recipe>) {
         for (recipe in recipes) {
             // Insertar la receta en la tabla RecipeEntity y obtener su ID
             val recipeId = dao.saveRecipes(recipe.toEntity())
@@ -63,5 +68,12 @@ class RecipeRepositoryImpl @Inject constructor(
             dao.saveIngredients(ingredientEntities)
             dao.saveSteps(stepEntities)
         }
-    }
+    }*/
+
+
+    /*suspend fun clearAllRecipes(){
+        dao.deleteAllSteps()
+        dao.deleteAllIngredients()
+        dao.deleteAllRecipes()
+    }*/
 }
