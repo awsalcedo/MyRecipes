@@ -4,9 +4,7 @@ import android.util.Log
 import com.asalcedo.myrecipes.data.local.dao.RecipeDao
 import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
 import com.asalcedo.myrecipes.data.network.RecipeService
-import com.asalcedo.myrecipes.data.network.model.Recipe
 import com.asalcedo.myrecipes.data.network.model.toDomain
-import com.asalcedo.myrecipes.data.network.model.toEntity
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.domain.model.toDomain
@@ -36,6 +34,11 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun insertRecipesDatabase(recipes: List<RecipeEntity>) {
         dao.saveRecipes(recipes)
     }
+
+    override suspend fun getRecipeById(recipeId: Long): RecipeDomain {
+        return dao.getRecipeById(recipeId).toDomain()
+    }
+
     override suspend fun getRecipesFromDatabase(): List<RecipeDomain> {
         return dao.getRecipes().map { it.toDomain() }
     }

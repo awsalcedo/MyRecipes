@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
         getRecipes()
     }
 
-    fun getRecipes() {
+    /*private fun getRecipes() {
         viewModelScope.launch {
             _state.value = HomeState.Loading
             val result = withContext(Dispatchers.IO) {
@@ -36,7 +36,21 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
             if (result != null) {
                 _state.value = HomeState.Success(result)
             } else {
-                _state.value = HomeState.Error("An error ocurred, try again later !!!")
+                _state.value = HomeState.Error("Failed to load recipes. Please try again later.")
+            }
+        }
+    }*/
+
+    private fun getRecipes() {
+        viewModelScope.launch {
+            _state.value = HomeState.Loading
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    useCase()
+                }
+                _state.value = HomeState.Success(result)
+            } catch (e: Exception) {
+                _state.value = HomeState.Error("Failed to load recipes. Please try again later.")
             }
         }
     }

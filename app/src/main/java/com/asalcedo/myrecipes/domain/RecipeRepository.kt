@@ -1,7 +1,6 @@
 package com.asalcedo.myrecipes.domain
 
 import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
-import com.asalcedo.myrecipes.data.network.model.Recipe
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 
 /****
@@ -16,6 +15,8 @@ interface RecipeRepository {
     suspend fun getRecipesFromDatabase(): List<RecipeDomain>
 
     suspend fun insertRecipesDatabase(recipes: List<RecipeEntity>)
+
+    suspend fun getRecipeById(recipeId: Long): RecipeDomain
 
     suspend fun clearDatabase()
 

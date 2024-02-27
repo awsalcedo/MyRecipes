@@ -2,8 +2,11 @@ package com.asalcedo.myrecipes.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.asalcedo.myrecipes.ui.screens.detail.DetailScreen
 import com.asalcedo.myrecipes.ui.screens.home.HomeScreen
 
 
@@ -20,8 +23,21 @@ fun NavigationHost(
     startDestination: NavigationRoute
 ) {
     NavHost(navController = navHostController, startDestination = startDestination.route) {
-        composable(NavigationRoute.Home.route){
-            HomeScreen()
+        composable(NavigationRoute.Home.route) {
+            HomeScreen(navController = navHostController)
+        }
+        composable(
+            NavigationRoute.Detail.route,
+            arguments = listOf(
+                navArgument("recipeId") {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            DetailScreen(
+                navController = navHostController,
+                recipeId = it.arguments?.getLong("recipeId") ?: 0
+            )
         }
     }
 

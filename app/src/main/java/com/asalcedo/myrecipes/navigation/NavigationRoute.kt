@@ -1,7 +1,5 @@
 package com.asalcedo.myrecipes.navigation
 
-import com.asalcedo.myrecipes.domain.model.RecipeDomain
-
 /****
  * Project: MyRecipes
  * From: com.asalcedo.myrecipes.navigation
@@ -10,5 +8,9 @@ import com.asalcedo.myrecipes.domain.model.RecipeDomain
  ***/
 sealed class NavigationRoute(val route: String) {
     object Home : NavigationRoute("home")
-    data class Detail(val recipe: RecipeDomain) : NavigationRoute("detail/{recipe}")
+    object Detail : NavigationRoute("detail/{recipeId}") {
+        fun buildRoute(recipeId: Long): String {
+            return "detail/$recipeId"
+        }
+    }
 }

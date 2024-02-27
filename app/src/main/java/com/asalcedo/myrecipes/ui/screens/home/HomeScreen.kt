@@ -36,12 +36,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.fragment.findNavController
-import com.asalcedo.myrecipes.R
+import androidx.navigation.NavController
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.navigation.NavigationRoute
+import com.asalcedo.myrecipes.util.Utilities.getImageId
 
 /****
  * Project: MyRecipes
@@ -52,9 +50,8 @@ import com.asalcedo.myrecipes.navigation.NavigationRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
-
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -64,7 +61,10 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             is HomeState.Error -> ErrorScreen(currentState.message)
             HomeState.Loading -> MyCircularProgressIndicator()
             is HomeState.Success -> {
-                RecipeList(recipes = currentState.recipes)
+                RecipeList(recipes = currentState.recipes, navController = navController)
+            }
+            else -> {
+                RecipeList(recipes = emptyList(), navController = navController)
             }
         }
     }
@@ -72,7 +72,9 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
 @Composable
 fun ErrorScreen(message: String) {
-    // Aquí puedes mostrar un mensaje de error personalizado
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = message, color = Color.Red)
+    }
 }
 
 @Composable
@@ -84,7 +86,7 @@ fun MyCircularProgressIndicator() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeList(recipes: List<RecipeDomain>) {
+fun RecipeList(recipes: List<RecipeDomain>, navController: NavController) {
     val ctx = LocalContext.current
     var query by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
@@ -98,38 +100,41 @@ fun RecipeList(recipes: List<RecipeDomain>) {
         },
         active = active,
         onActiveChange = { active = it },
-        modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(8.dp),
+        modifier = Modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .padding(8.dp),
         placeholder = { Text(text = "Search a recipe") },
-    ){
-        if (query.isNotEmpty()){
+    ) {
+        if (query.isNotEmpty()) {
             val filterRecipes = recipes.filter { it.name.contains(query, ignoreCase = true) }
 
             LazyColumn {
                 items(filterRecipes) { recipe ->
-                    RecipeItem(recipe = recipe)
+                    RecipeItem(recipe = recipe, navController = navController)
                 }
             }
         } else {
             LazyColumn {
                 items(recipes) { recipe ->
-                    RecipeItem(recipe = recipe)
+                    RecipeItem(recipe = recipe, navController = navController)
                 }
             }
         }
     }
     LazyColumn {
         items(recipes) { recipe ->
-            RecipeItem(recipe = recipe)
+            RecipeItem(recipe = recipe, navController = navController)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
+fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier, navController: NavController) {
     val imageId = getImageId(recipe.image)
     val ctxs = LocalContext.current
-    val detailRecipeNavController = rememberNavController()
+    //val navController = rememberNavController()
 
     Card(
         modifier = modifier
@@ -138,9 +143,8 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
             .fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         onClick = {
-            Toast.makeText(ctxs, recipe.name, Toast.LENGTH_SHORT).show()
-            //detailRecipeNavController.navigate(NavigationRoute.Detail().route)
-            //findNavController(ctxs).navigate("recipe/${recipe.id}")
+            Toast.makeText(ctxs, "id: ${recipe.id} - ${recipe.name}", Toast.LENGTH_SHORT).show()
+            navController.navigate(NavigationRoute.Detail.buildRoute(recipe.id))
         },
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
@@ -165,21 +169,5 @@ fun RecipeItem(recipe: RecipeDomain, modifier: Modifier = Modifier) {
                 color = Color.Black
             )
         }
-    }
-}
-
-fun getImageId(image: String): Int {
-    return when (image) {
-        "spaghetti_carbonara" -> R.drawable.spaghetti_carbonara
-        "chicken_tikka_masala" -> R.drawable.chicken_tikka_masala
-        "margherita_pizza" -> R.drawable.margherita_pizza
-        "caesar_salad" -> R.drawable.caesar_salad
-        "chocolate_chip_cookies" -> R.drawable.chocolate_chip_cookies
-        "guacamole" -> R.drawable.guacamole
-        "sushi_rolls" -> R.drawable.sushi_rolls
-        "beef_tacos" -> R.drawable.beef_tacos
-        "beef_stir_fry" -> R.drawable.beef_stir_fry
-        "chocolate_cake" -> R.drawable.chocolate_cake
-        else -> R.drawable.spaghetti_carbonara
     }
 }
