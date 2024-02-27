@@ -26,7 +26,6 @@ fun Ingredient.toDomain() = IngredientDomain(
 )
 
 fun Ingredient.toEntity() = IngredientEntity(
-    recipeId = 0,
     name = name,
     quantity = quantity,
     unit = unit

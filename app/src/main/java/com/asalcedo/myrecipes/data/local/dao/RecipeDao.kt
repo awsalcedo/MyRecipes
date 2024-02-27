@@ -16,12 +16,18 @@ import com.asalcedo.myrecipes.data.local.entities.StepEntity
  ***/
 @Dao
 interface RecipeDao {
+    @Query("SELECT * FROM recipes")
+    suspend fun getAllRecipes(): List<RecipeEntity>
+
     @Query("SELECT * FROM recipes WHERE name LIKE '%' || :recipeName || '%'")
     suspend fun searchRecipesByName(recipeName: String): List<RecipeEntity>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveRecipes(recipes: List<RecipeEntity>)
     @Query("SELECT * FROM recipes")
     suspend fun getRecipes(): List<RecipeEntity>
+
+    @Query("DELETE FROM recipes")
+    suspend fun clearDatabase()
 
     //suspend fun saveRecipes(recipe: kotlin.collections.List<com.asalcedo.myrecipes.data.local.entities.RecipeEntity>): Long
     /*@Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -2,8 +2,7 @@ package com.asalcedo.myrecipes.data
 
 import android.util.Log
 import com.asalcedo.myrecipes.data.local.dao.RecipeDao
-import com.asalcedo.myrecipes.data.local.entities.IngredientEntity
-import com.asalcedo.myrecipes.data.local.entities.StepEntity
+import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
 import com.asalcedo.myrecipes.data.network.RecipeService
 import com.asalcedo.myrecipes.data.network.model.Recipe
 import com.asalcedo.myrecipes.data.network.model.toDomain
@@ -24,22 +23,25 @@ class RecipeRepositoryImpl @Inject constructor(
     private val dao: RecipeDao
 ) :
     RecipeRepository {
-    override suspend fun getRecipes(): List<RecipeDomain>? {
+    override suspend fun getRecipesFromApi(): List<RecipeDomain>? {
         runCatching { apiService.getRecipes() }
             .onSuccess { recipeList ->
-                saveRecipes(recipeList)
+                //saveRecipes(recipeList)
                 return recipeList.map { recipe -> recipe.toDomain() }
             }
             .onFailure { Log.i("MyRecipesApp", "An error has ocurred: ${it.message}") }
         return null
     }
 
-    private suspend fun saveRecipes(recipes: List<Recipe>) {
-        dao.saveRecipes(recipes.map { it.toEntity() })
+    override suspend fun insertRecipesDatabase(recipes: List<RecipeEntity>) {
+        dao.saveRecipes(recipes)
     }
-
     override suspend fun getRecipesFromDatabase(): List<RecipeDomain> {
         return dao.getRecipes().map { it.toDomain() }
+    }
+
+    override suspend fun clearDatabase() {
+        dao.clearDatabase()
     }
 
     /*private suspend fun saveRecipes(recipes: List<Recipe>) {
@@ -68,12 +70,5 @@ class RecipeRepositoryImpl @Inject constructor(
             dao.saveIngredients(ingredientEntities)
             dao.saveSteps(stepEntities)
         }
-    }*/
-
-
-    /*suspend fun clearAllRecipes(){
-        dao.deleteAllSteps()
-        dao.deleteAllIngredients()
-        dao.deleteAllRecipes()
     }*/
 }

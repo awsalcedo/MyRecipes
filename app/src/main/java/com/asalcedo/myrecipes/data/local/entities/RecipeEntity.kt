@@ -2,6 +2,7 @@ package com.asalcedo.myrecipes.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.asalcedo.myrecipes.domain.model.RecipeDomain
 
 /****
  * Project: MyRecipes
@@ -20,4 +21,15 @@ data class RecipeEntity(
     val steps: List<StepEntity>,
     val originLatitude: Double,
     val originLongitude: Double
+)
+
+fun RecipeDomain.toEntity() = RecipeEntity(
+    id = id,
+    name = name,
+    description = description,
+    image = image,
+    ingredients = ingredients.map { it.toEntity() },
+    steps = steps.map { it.toEntity() },
+    originLatitude = originLatitude,
+    originLongitude = originLongitude
 )

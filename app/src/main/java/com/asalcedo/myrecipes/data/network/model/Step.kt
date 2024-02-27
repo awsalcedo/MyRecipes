@@ -23,7 +23,6 @@ fun Step.toDomain() = StepDomain(
 )
 
 fun Step.toEntity() = StepEntity(
-    recipeId = 0,
     number = number,
     description = description
 )
