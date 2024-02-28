@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -31,13 +32,13 @@ android {
                 "proguard-rules.pro"
             )
             resValue("string", "recipesName", "My Recipes App")
-            buildConfigField("String", "BASE_URL", "\"https://demo4796826.mockable.io/\"")
+            buildConfigField("String", "BASE_URL", "\"https://demo6808752.mockable.io/\"")
         }
         debug {
             isMinifyEnabled = false
             isDebuggable = true
             resValue("string", "recipesName", "[DEBUG] My Recipes App")
-            buildConfigField("String", "BASE_URL", "\"https://demo4796826.mockable.io/\"")
+            buildConfigField("String", "BASE_URL", "\"https://5fcf82d8-614f-4e97-9803-7c795a7ef819.mock.pstmn.io/\"")
         }
     }
     compileOptions {
@@ -90,6 +91,10 @@ dependencies {
     // Room
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // Maps
+    implementation("com.google.maps.android:maps-compose:2.15.0")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
 
 
     testImplementation("junit:junit:4.13.2")

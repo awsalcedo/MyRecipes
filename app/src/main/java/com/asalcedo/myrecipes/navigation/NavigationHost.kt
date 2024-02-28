@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.asalcedo.myrecipes.ui.screens.detail.DetailScreen
 import com.asalcedo.myrecipes.ui.screens.home.HomeScreen
+import com.asalcedo.myrecipes.ui.screens.map.MapScreen
 
 
 /****
@@ -37,6 +38,23 @@ fun NavigationHost(
             DetailScreen(
                 navController = navHostController,
                 recipeId = it.arguments?.getLong("recipeId") ?: 0
+            )
+        }
+        composable(
+            NavigationRoute.Map.route,
+            arguments = listOf(
+                navArgument("latitude") {
+                    type = NavType.FloatType
+                },
+                navArgument("longitude") {
+                    type = NavType.FloatType
+                }
+            )
+        ) {
+            MapScreen(
+                navController = navHostController,
+                latitude = it.arguments?.getFloat("latitude") ?: 0f,
+                longitude = it.arguments?.getFloat("longitude") ?: 0f
             )
         }
     }

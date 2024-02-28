@@ -3,21 +3,30 @@ package com.asalcedo.myrecipes.ui.screens.detail
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
+import com.asalcedo.myrecipes.navigation.NavigationRoute
 import com.asalcedo.myrecipes.util.Utilities.getImageId
 
 /****
@@ -44,13 +54,36 @@ fun DetailScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
+    var originLatitude by remember { mutableStateOf(0f) }
+    var originLongitude by remember { mutableStateOf(0f) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.fillMaxSize()
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                IconButton(
+                    onClick = { navController.navigateUp() },
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = "Detalle de la Receta",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
             when (val currentState = state) {
                 is DetailState.Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
@@ -61,29 +94,29 @@ fun DetailScreen(
                 }
 
                 is DetailState.Success -> {
-                    DetailContent(recipe = currentState.recipe, navController = navController)
-                    //RecipeDetailScreen(recipe = currentState.recipe, navController = navController)
+                    originLatitude = currentState.recipe.originLatitude.toFloat()
+                    originLongitude = currentState.recipe.originLongitude.toFloat()
+                    RecipeDetailScreen(recipe = currentState.recipe, navController = navController)
                 }
             }
         }
+
+        FloatingActionButton(
+            onClick = {
+                navController.navigate(
+                    NavigationRoute.Map.buildRoute(
+                        originLatitude,
+                        originLongitude
+                    )
+                )
+            },
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd)
+        ) {
+            Icon(Icons.Default.Place, contentDescription = "Mapa")
+        }
     }
-
-}
-
-@Composable
-fun DetailContent(recipe: RecipeDomain, navController: NavController) {
-
-    Column {
-        val imageId = getImageId(recipe.image)
-        Image(
-            painter = painterResource(id = imageId),
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-        Text(text = recipe.name)
-        Text(text = recipe.description)
-    }
-
 }
 
 @Composable
@@ -156,15 +189,6 @@ fun RecipeDetailScreen(recipe: RecipeDomain, navController: NavController) {
                 )
             }
             SpacerItem(16)
-        }
-
-        item {
-            Button(
-                onClick = { /* Perform some action */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Save Recipe")
-            }
         }
     }
 }

@@ -13,4 +13,9 @@ sealed class NavigationRoute(val route: String) {
             return "detail/$recipeId"
         }
     }
+    object Map : NavigationRoute("map/{latitude}/{longitude}"){
+        fun buildRoute(latitude: Float, longitude: Float): String {
+            return "map/$latitude/$longitude"
+        }
+    }
 }
