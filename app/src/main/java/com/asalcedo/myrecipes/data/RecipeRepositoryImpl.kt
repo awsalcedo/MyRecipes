@@ -8,6 +8,7 @@ import com.asalcedo.myrecipes.data.network.model.toDomain
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.domain.model.toDomain
+import java.io.IOException
 import javax.inject.Inject
 
 /****
@@ -21,14 +22,13 @@ class RecipeRepositoryImpl @Inject constructor(
     private val dao: RecipeDao
 ) :
     RecipeRepository {
-    override suspend fun getRecipesFromApi(): List<RecipeDomain>? {
-        runCatching { apiService.getRecipes() }
-            .onSuccess { recipeList ->
-                //saveRecipes(recipeList)
-                return recipeList.map { recipe -> recipe.toDomain() }
-            }
-            .onFailure { Log.i("MyRecipesApp", "An error has ocurred: ${it.message}") }
-        return null
+    override suspend fun getRecipesFromApi(): List<RecipeDomain> {
+        return runCatching {
+            apiService.getRecipes().map { it.toDomain() }
+        }.onFailure {
+            Log.i("RecipeRepositoryImpl", "An error has occurred: ${it.message}")
+            throw it
+        }.getOrThrow()
     }
 
     override suspend fun insertRecipesDatabase(recipes: List<RecipeEntity>) {
@@ -46,32 +46,4 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun clearDatabase() {
         dao.clearDatabase()
     }
-
-    /*private suspend fun saveRecipes(recipes: List<Recipe>) {
-        for (recipe in recipes) {
-            // Insertar la receta en la tabla RecipeEntity y obtener su ID
-            val recipeId = dao.saveRecipes(recipe.toEntity())
-
-            // Asignar el ID de la receta a cada ingrediente y paso
-            val ingredientEntities = recipe.ingredients.map {
-                IngredientEntity(
-                    recipeId = recipeId,
-                    name = it.name,
-                    quantity = it.quantity,
-                    unit = it.unit
-                )
-            }
-            val stepEntities = recipe.steps.map {
-                StepEntity(
-                    recipeId = recipeId,
-                    number = it.number,
-                    description = it.description
-                )
-            }
-
-            // Insertar los ingredientes y pasos asociados a la receta
-            dao.saveIngredients(ingredientEntities)
-            dao.saveSteps(stepEntities)
-        }
-    }*/
 }

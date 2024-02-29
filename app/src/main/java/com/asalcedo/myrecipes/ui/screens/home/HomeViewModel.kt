@@ -1,5 +1,6 @@
 package com.asalcedo.myrecipes.ui.screens.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asalcedo.myrecipes.domain.usecase.GetRecipesUseCase
@@ -26,21 +27,6 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
         getRecipes()
     }
 
-    /*private fun getRecipes() {
-        viewModelScope.launch {
-            _state.value = HomeState.Loading
-            val result = withContext(Dispatchers.IO) {
-                useCase()
-            }
-
-            if (result != null) {
-                _state.value = HomeState.Success(result)
-            } else {
-                _state.value = HomeState.Error("Failed to load recipes. Please try again later.")
-            }
-        }
-    }*/
-
     private fun getRecipes() {
         viewModelScope.launch {
             _state.value = HomeState.Loading
@@ -48,10 +34,20 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
                 val result = withContext(Dispatchers.IO) {
                     useCase()
                 }
-                _state.value = HomeState.Success(result)
+                if (result.isNotEmpty()) {
+                    _state.value = HomeState.Success(result)
+                } else {
+                    _state.value =
+                        HomeState.Error("Failed to load recipes. Please try again later.")
+                }
             } catch (e: Exception) {
-                _state.value = HomeState.Error("Failed to load recipes. Please try again later.")
+                _state.value = HomeState.Error("An unexpected error occurred.")
+                Log.e("HomeViewModel", "Unexpected error", e)
             }
         }
+    }
+
+    fun retryGetRecipes() {
+        getRecipes()
     }
 }

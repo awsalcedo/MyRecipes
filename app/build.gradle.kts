@@ -39,15 +39,17 @@ android {
             isDebuggable = true
             resValue("string", "recipesName", "[DEBUG] My Recipes App")
             buildConfigField("String", "BASE_URL", "\"https://5fcf82d8-614f-4e97-9803-7c795a7ef819.mock.pstmn.io/\"")
+            //buildConfigField("String", "BASE_URL", "\"https://demo6808752.mockable.io/\"")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
@@ -80,6 +82,8 @@ dependencies {
 
     //DaggerHilt
     implementation("com.google.dagger:hilt-android:2.49")
+    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.12")
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
@@ -96,9 +100,15 @@ dependencies {
     implementation("com.google.maps.android:maps-compose:2.15.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
 
-
     testImplementation("junit:junit:4.13.2")
+    // Mockito
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+
+    // MockK
+    testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")

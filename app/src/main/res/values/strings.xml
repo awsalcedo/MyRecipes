@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MyRecipes</string>
     <string name="google_map_api">AIzaSyCbsaHSqk4leo8lIgoapjf-GEjhhQc3Qns</string>
+    <string name="error_message">Ha ocurrido un error al cargar las recetas. Por favor, inténtelo de nuevo más tarde.</string>
+    <string name="search_a_recipe">Search a recipe</string>
+    <string name="reintentar">Reintentar</string>
 </resources>

@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
             MyRecipesTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    //modifier = Modifier.fillMaxSize(),
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.background
                 ) {

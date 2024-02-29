@@ -26,19 +26,17 @@ class DetailViewModel @Inject constructor(
             getRecipeById(recipeId)
         }
     }
-
     private fun getRecipeById(recipeId: Long) {
         viewModelScope.launch {
             _state.value = DetailState.Loading(true)
-            val result = withContext(Dispatchers.IO) {
-                useCase(recipeId)
-            }
-            if (result != null) {
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    useCase(recipeId)
+                }
                 _state.value = DetailState.Success(result)
-            } else {
-                _state.value = DetailState.Error("An error ocurred, try again later !!!")
+            } catch (e: Exception) {
+                _state.value = DetailState.Error("An error occurred: ${e.message}")
             }
         }
-
     }
 }
