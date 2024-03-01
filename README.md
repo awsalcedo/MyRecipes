@@ -59,3 +59,12 @@ MockK es un framework de prueba para Kotlin que proporciona capacidades de creac
 Permite crear mocks y definir su comportamiento de una manera concisa y expresiva utilizando una sintaxis fluida en Kotlin.
 
 Es altamente integrable con los marcos de prueba más populares, como JUnit y es ampliamente utilizado en el desarrollo de aplicaciones Kotlin para escribir pruebas efectivas y mantenibles.
+
+
+## Uso
+Clona el repositorio del proyecto desde GitHub: https://github.com/awsalcedo/MyRecipes.git
+Abre el proyecto en Android Studio.
+Agrega al archivo local.properties la clave GM_API_KEY=AIzaSyCbsaHSqk4leo8lIgoapjf-GEjhhQc3Qns para asegurar la clave de Google Maps.
+Ir al menú Build de Android Studio, luego seleccionar la opción del submenú Rebuild Project.
+Descarga el mock server desde GitHub archivo (Recipes mock server.postman_collection.json), el cual se creó mediante Postman para efectos de prueba del backend.
+Ejecuta la aplicación.
