@@ -22,9 +22,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,8 +55,12 @@ fun DetailScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
-    var originLatitude by remember { mutableStateOf(0f) }
-    var originLongitude by remember { mutableStateOf(0f) }
+    var originLatitude by remember { mutableFloatStateOf(0f) }
+    var originLongitude by remember { mutableFloatStateOf(0f) }
+
+    LaunchedEffect(Unit) {
+        viewModel.getRecipeById(recipeId)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -96,7 +101,7 @@ fun DetailScreen(
                 is DetailState.Success -> {
                     originLatitude = currentState.recipe.originLatitude.toFloat()
                     originLongitude = currentState.recipe.originLongitude.toFloat()
-                    RecipeDetailScreen(recipe = currentState.recipe, navController = navController)
+                    RecipeDetailScreen(recipe = currentState.recipe)
                 }
             }
         }
@@ -120,7 +125,7 @@ fun DetailScreen(
 }
 
 @Composable
-fun RecipeDetailScreen(recipe: RecipeDomain, navController: NavController) {
+fun RecipeDetailScreen(recipe: RecipeDomain) {
     LazyColumn(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -134,7 +139,7 @@ fun RecipeDetailScreen(recipe: RecipeDomain, navController: NavController) {
                     .height(200.dp),
                 contentScale = ContentScale.Crop
             )
-            SpacerItem(16)
+            SpacerItem()
         }
 
         item {
@@ -152,7 +157,7 @@ fun RecipeDetailScreen(recipe: RecipeDomain, navController: NavController) {
                 color = Color.Gray,
                 modifier = Modifier.fillMaxWidth()
             )
-            SpacerItem(16)
+            SpacerItem()
         }
 
         item {
@@ -170,7 +175,7 @@ fun RecipeDetailScreen(recipe: RecipeDomain, navController: NavController) {
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            SpacerItem(16)
+            SpacerItem()
         }
 
         item {
@@ -188,13 +193,13 @@ fun RecipeDetailScreen(recipe: RecipeDomain, navController: NavController) {
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            SpacerItem(16)
+            SpacerItem()
         }
     }
 }
 
 @Composable
-private fun SpacerItem(size: Int) {
-    Spacer(modifier = Modifier.height(size.dp))
+private fun SpacerItem() {
+    Spacer(modifier = Modifier.height(16.dp))
 }
 

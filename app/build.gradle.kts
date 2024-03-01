@@ -82,8 +82,6 @@ dependencies {
 
     //DaggerHilt
     implementation("com.google.dagger:hilt-android:2.49")
-    testImplementation("junit:junit:4.12")
-    testImplementation("junit:junit:4.12")
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
@@ -98,16 +96,19 @@ dependencies {
 
     // Maps
     implementation("com.google.maps.android:maps-compose:2.15.0")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     testImplementation("junit:junit:4.13.2")
     // Mockito
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
 
     // MockK
     testImplementation("io.mockk:mockk:1.13.4")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    // Turbine
+    testImplementation("app.cash.turbine:turbine:1.0.0")
 
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
