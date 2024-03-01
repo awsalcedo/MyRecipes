@@ -3,25 +3,38 @@ package com.asalcedo.myrecipes.ui.screens.home
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.domain.usecase.GetRecipesUseCase
 import com.asalcedo.myrecipes.testrules.CoroutinesTestRule
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
+
+    @RelaxedMockK
+    private lateinit var getRecipesUseCase: GetRecipesUseCase
+
+    private lateinit var viewModel: HomeViewModel
+
     @get:Rule
-    val coroutinesTestRule = CoroutinesTestRule()
+    val rule = CoroutinesTestRule()
+
+    @Before
+    fun setup() {
+        MockKAnnotations.init(this)
+        viewModel = HomeViewModel(getRecipesUseCase)
+    }
 
     @Test
     fun `when UI is ready, then call get recipes`() = runTest {
+        // Given
         val expectedRecipes = listOf(
             RecipeDomain(
                 id = 1,
@@ -45,28 +58,16 @@ class HomeViewModelTest {
             )
         )
 
-        val getRecipesUseCase: GetRecipesUseCase = mockk()
-        coEvery { getRecipesUseCase.invoke() } returns expectedRecipes
+        coEvery { getRecipesUseCase() } returns expectedRecipes
 
-        val viewModel = HomeViewModel(getRecipesUseCase)
-
+        // When
         viewModel.getRecipes()
 
-
-        /*delay(2000)
-        advanceTimeBy(500)*/
-
+        // Then
+        //Se avanza el estado del dispatcher de corutinas hasta que no haya más corrutinas pendientes para que la corrutina en el viewModel (getRecipes()) se complete.
         advanceUntilIdle()
 
-        assertEquals(HomeState.Loading, viewModel.state.value)
+        runBlocking { assertEquals(HomeState.Success(expectedRecipes), viewModel.state.value) }
 
-        //advanceTimeBy(1600)
-
-
-
-
-        assertEquals(HomeState.Success(expectedRecipes), viewModel.state.value)
     }
-
-
 }

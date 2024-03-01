@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asalcedo.myrecipes.domain.usecase.GetRecipesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /****
@@ -29,11 +27,8 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
 
     fun getRecipes() {
         viewModelScope.launch {
-            _state.value = HomeState.Loading
             try {
-                val result = withContext(Dispatchers.IO) {
-                    useCase()
-                }
+                val result = useCase()
                 if (result.isNotEmpty()) {
                     _state.value = HomeState.Success(result)
                 } else {
