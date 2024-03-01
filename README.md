@@ -67,4 +67,5 @@ Es altamente integrable con los marcos de prueba más populares, como JUnit y es
 * Agrega al archivo local.properties la clave GM_API_KEY=AIzaSyCbsaHSqk4leo8lIgoapjf-GEjhhQc3Qns para asegurar la clave de Google Maps, clave proporcionada temporalmente.
 * Ir al menú Build de Android Studio, luego seleccionar la opción del submenú Rebuild Project.
 * Descarga el mock server desde GitHub archivo (Recipes mock server.postman_collection.json), el cual se creó mediante Postman para efectos de prueba del backend.
+* Cambiar la url del mockserver en el archivo build.gradle.kts en el buildTypes -> debug clave BASE_URL.
 * Ejecuta la aplicación.
