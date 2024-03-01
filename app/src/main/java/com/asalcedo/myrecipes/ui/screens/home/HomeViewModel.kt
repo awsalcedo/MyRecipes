@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
         getRecipes()
     }
 
-    private fun getRecipes() {
+    fun getRecipes() {
         viewModelScope.launch {
             _state.value = HomeState.Loading
             try {

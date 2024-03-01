@@ -1,16 +1,16 @@
 # My Recipes App
 
 Este proyecto es una aplicación de recetas escrita en Kotlin para Android. La aplicación permite a los usuarios obtener una lista de recetas, relizar una búsqueda por el nombre de la receta, 
-mirar los detalles de la receta así como sus ingredientes y los pasos.
+ir a los detalles de la receta y visualizar una descripción general de la misma así como sus ingredientes y los pasos a seguir.
 Está diseñada siguiendo los principios de Clean Architecture y SOLID, y utiliza varias tecnologías y bibliotecas importantes para proporcionar una experiencia robusta y escalable.
 
-Home             |  Detail
+Home             |  Search
 :-------------------------:|:-------------------------:
-![Login Screen](https://github.com/awsalcedo/HabitsApp/blob/master/login.png) | ![Registration Screen](https://github.com/awsalcedo/HabitsApp/blob/master/registration.png)
+![Home Screen](https://github.com/awsalcedo/MyRecipes/blob/master/home.png) | ![Search Screen](https://github.com/awsalcedo/MyRecipes/blob/master/search.png)
 
-Map             |  Detail
+Detail             |  Map
 :-------------------------:|:-------------------------:
-![Home Screen](https://github.com/awsalcedo/HabitsApp/blob/master/home.png) | ![Detail Screen](https://github.com/awsalcedo/HabitsApp/blob/master/detail.png)
+![Detail Screen](https://github.com/awsalcedo/MyRecipes/blob/master/detail.png) | ![Map Screen](https://github.com/awsalcedo/MyRecipes/blob/master/map.png)
 
 ## Características principales
 
@@ -53,3 +53,9 @@ Hilt proporciona una forma estándar de utilizar la inyección de dependencias e
 
 Retrofit es un cliente REST de tipo seguro para Android que proporciona un marco potente para autenticar e interactuar con API y enviar solicitudes de red con OkHttp.
 Esta biblioteca facilita bastante la descarga de datos JSON o XML desde una API web. Una vez que se descargan los datos, se analizan en una clase de datos que debe definirse para cada "recurso" en la respuesta.
+
+## MockK
+MockK es un framework de prueba para Kotlin que proporciona capacidades de creación y manipulación de objetos simulados (mocks) y objetos simulados parciales (spies) para facilitar las pruebas unitarias y de integración. 
+Permite crear mocks y definir su comportamiento de una manera concisa y expresiva utilizando una sintaxis fluida en Kotlin.
+
+Es altamente integrable con los marcos de prueba más populares, como JUnit y es ampliamente utilizado en el desarrollo de aplicaciones Kotlin para escribir pruebas efectivas y mantenibles.
