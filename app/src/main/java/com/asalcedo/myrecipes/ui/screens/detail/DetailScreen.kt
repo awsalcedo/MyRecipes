@@ -122,6 +122,7 @@ fun DetailScreen(
             Icon(Icons.Default.Place, contentDescription = "Mapa")
         }
     }
+
 }
 
 @Composable

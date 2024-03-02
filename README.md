@@ -4,13 +4,13 @@ Este proyecto es una aplicación de recetas escrita en Kotlin para Android. La a
 ir a los detalles de la receta y visualizar una descripción general de la misma así como sus ingredientes y los pasos a seguir.
 Está diseñada siguiendo los principios de Clean Architecture y SOLID, y utiliza varias tecnologías y bibliotecas importantes para proporcionar una experiencia robusta y escalable.
 
-Home             |  Search
-:-------------------------:|:-------------------------:
-![Home Screen](https://github.com/awsalcedo/MyRecipes/blob/master/home.png) | ![Search Screen](https://github.com/awsalcedo/MyRecipes/blob/master/search.png)
+|                                    Home                                     |                                     Search                                      |
+|:---------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|
+| ![Home Screen](https://github.com/awsalcedo/MyRecipes/blob/master/home.png) | ![Search Screen](https://github.com/awsalcedo/MyRecipes/blob/master/search.png) |
 
-Detail             |  Map
-:-------------------------:|:-------------------------:
-![Detail Screen](https://github.com/awsalcedo/MyRecipes/blob/master/detail.png) | ![Map Screen](https://github.com/awsalcedo/MyRecipes/blob/master/map.png)
+|                                     Detail                                      |                                    Map                                    |
+|:-------------------------------------------------------------------------------:|:-------------------------------------------------------------------------:|
+| ![Detail Screen](https://github.com/awsalcedo/MyRecipes/blob/master/detail.png) | ![Map Screen](https://github.com/awsalcedo/MyRecipes/blob/master/map.png) |
 
 ## Características principales
 
@@ -62,10 +62,7 @@ Es altamente integrable con los marcos de prueba más populares, como JUnit y es
 
 
 ## Uso
-* Clona el repositorio del proyecto desde GitHub: https://github.com/awsalcedo/MyRecipes.git
-* Abre el proyecto en Android Studio.
-* Agrega al archivo local.properties la clave GM_API_KEY=AIzaSyCbsaHSqk4leo8lIgoapjf-GEjhhQc3Qns para asegurar la clave de Google Maps, clave proporcionada temporalmente.
-* Ir al menú Build de Android Studio, luego seleccionar la opción del submenú Rebuild Project.
-* Descarga el mock server desde GitHub archivo (Recipes mock server.postman_collection.json), el cual se creó mediante Postman para efectos de prueba del backend.
-* Cambiar la url del mockserver en el archivo build.gradle.kts en el buildTypes -> debug clave BASE_URL.
-* Ejecuta la aplicación.
+* Abrir el proyecto en Android Studio y clonar el repositorio del proyecto desde GitHub: https://github.com/awsalcedo/MyRecipes.git
+* Agregar al archivo local.properties la clave GM_API_KEY=AIzaSyCbsaHSqk4leo8lIgoapjf-GEjhhQc3Qns para asegurar la clave de Google Maps, clave proporcionada temporalmente.
+* Ir al menú Build de Android Studio, luego seleccionar la opción del submenú Rebuild Project para volver a generar el BuildConfig.
+* Ejecutar la aplicación.

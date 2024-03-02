@@ -32,14 +32,13 @@ android {
                 "proguard-rules.pro"
             )
             resValue("string", "recipesName", "My Recipes App")
-            buildConfigField("String", "BASE_URL", "\"https://demo6808752.mockable.io/\"")
+            buildConfigField("String", "BASE_URL", "\"https://5fcf82d8-614f-4e97-9803-7c795a7ef819.mock.pstmn.io/\"")
         }
         debug {
             isMinifyEnabled = false
             isDebuggable = true
             resValue("string", "recipesName", "[DEBUG] My Recipes App")
             buildConfigField("String", "BASE_URL", "\"https://5fcf82d8-614f-4e97-9803-7c795a7ef819.mock.pstmn.io/\"")
-            //buildConfigField("String", "BASE_URL", "\"https://demo6808752.mockable.io/\"")
         }
     }
     compileOptions {
