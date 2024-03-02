@@ -60,6 +60,9 @@ Permite crear mocks y definir su comportamiento de una manera concisa y expresiv
 
 Es altamente integrable con los marcos de prueba más populares, como JUnit y es ampliamente utilizado en el desarrollo de aplicaciones Kotlin para escribir pruebas efectivas y mantenibles.
 
+## Turbine
+Turbine es una biblioteca de prueba diseñada para simplificar y mejorar las pruebas de código asincrónico en Kotlin, especialmente cuando se utiliza el estilo de programación reactiva con coroutines. Proporciona una API concisa y poderosa para escribir pruebas que involucran flujos, canales y otras construcciones asincrónicas de Kotlin.
+
 
 ## Uso
 * Abrir el proyecto en Android Studio y clonar el repositorio del proyecto desde GitHub: https://github.com/awsalcedo/MyRecipes.git
