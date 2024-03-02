@@ -16,8 +16,6 @@ data class RecipeDomain(
     val image: String,
     val ingredients: List<IngredientDomain>,
     val steps: List<StepDomain>,
-    //val ingredients: String,
-    //val steps: String,
     val originLatitude: Double,
     val originLongitude: Double
 )

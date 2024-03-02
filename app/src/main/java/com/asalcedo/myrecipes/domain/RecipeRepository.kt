@@ -20,5 +20,7 @@ interface RecipeRepository {
 
     suspend fun clearDatabase()
 
+    suspend fun getGeocode(): String
+
 
 }

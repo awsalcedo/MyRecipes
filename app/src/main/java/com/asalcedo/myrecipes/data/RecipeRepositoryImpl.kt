@@ -1,6 +1,7 @@
 package com.asalcedo.myrecipes.data
 
 import android.util.Log
+import com.asalcedo.myrecipes.BuildConfig.GM_API_KEY
 import com.asalcedo.myrecipes.data.local.dao.RecipeDao
 import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
 import com.asalcedo.myrecipes.data.network.RecipeService
@@ -8,7 +9,6 @@ import com.asalcedo.myrecipes.data.network.model.toDomain
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.domain.model.toDomain
-import java.io.IOException
 import javax.inject.Inject
 
 /****
@@ -45,5 +45,15 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override suspend fun clearDatabase() {
         dao.clearDatabase()
+    }
+
+    override suspend fun getGeocode(): String {
+        return runCatching {
+            val result = apiService.getGeocode(apiKey = GM_API_KEY)
+            result.error_message
+        }.onFailure {
+            Log.i("RecipeRepositoryImpl", "An error has occurred getGeocode: ${it.message}")
+            throw it
+        }.getOrThrow()
     }
 }

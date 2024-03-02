@@ -39,6 +39,7 @@ android {
             isDebuggable = true
             resValue("string", "recipesName", "[DEBUG] My Recipes App")
             buildConfigField("String", "BASE_URL", "\"https://5fcf82d8-614f-4e97-9803-7c795a7ef819.mock.pstmn.io/\"")
+            buildConfigField("String", "BASE_GOOGLE_URL", "\"https://maps.googleapis.com/maps/api/\"")
         }
     }
     compileOptions {

@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,8 +58,9 @@ fun DetailScreen(
     val state by viewModel.state.collectAsState()
     var originLatitude by remember { mutableFloatStateOf(0f) }
     var originLongitude by remember { mutableFloatStateOf(0f) }
+    var recipeName by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(recipeId) {
         viewModel.getRecipeById(recipeId)
     }
 
@@ -101,6 +103,7 @@ fun DetailScreen(
                 is DetailState.Success -> {
                     originLatitude = currentState.recipe.originLatitude.toFloat()
                     originLongitude = currentState.recipe.originLongitude.toFloat()
+                    recipeName = currentState.recipe.name
                     RecipeDetailScreen(recipe = currentState.recipe)
                 }
             }
@@ -111,7 +114,8 @@ fun DetailScreen(
                 navController.navigate(
                     NavigationRoute.Map.buildRoute(
                         originLatitude,
-                        originLongitude
+                        originLongitude,
+                        recipeName
                     )
                 )
             },

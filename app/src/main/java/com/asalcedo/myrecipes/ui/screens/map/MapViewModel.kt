@@ -1,26 +1,46 @@
 package com.asalcedo.myrecipes.ui.screens.map
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.asalcedo.myrecipes.domain.usecase.GetResponseApiKeyGoogle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MapViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+class MapViewModel @Inject constructor(private val useCase: GetResponseApiKeyGoogle) : ViewModel() {
     private val _state = MutableStateFlow<MapState>(MapState.Initial)
     val state: StateFlow<MapState> = _state
 
     init {
-        val latitude = savedStateHandle.get<Float>("latitude")
-        val longitude = savedStateHandle.get<Float>("longitude")
-        if (latitude != null && longitude != null) {
-            _state.value = MapState.Location(latitude, longitude)
-        }
+        verifyApiKey()
     }
 
     fun setMapLocation(latitude: Float, longitude: Float) {
-        _state.value = MapState.Location(latitude, longitude)
+        try {
+            if (latitude == 0f && longitude == 0f) {
+                _state.value = MapState.Error("Invalid coordinates")
+            } else {
+                _state.value = MapState.Location(latitude, longitude)
+            }
+        } catch (e: Exception) {
+            _state.value = MapState.Error("An error occurred: ${e.message}")
+        }
     }
+
+    private fun verifyApiKey() {
+        try {
+            viewModelScope.launch {
+                val result = useCase()
+                if (result == "The provided API key is invalid. ") {
+                    _state.value = MapState.Error("Invalid API key")
+                }
+            }
+        } catch (e: Exception) {
+            _state.value = MapState.Error("An error occurred: ${e.message}")
+        }
+    }
+
 }

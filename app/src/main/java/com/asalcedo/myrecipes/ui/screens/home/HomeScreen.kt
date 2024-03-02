@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
@@ -43,6 +42,7 @@ import androidx.navigation.NavController
 import com.asalcedo.myrecipes.R
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.navigation.NavigationRoute
+import com.asalcedo.myrecipes.ui.screens.components.MyCircularProgressIndicator
 import com.asalcedo.myrecipes.util.Utilities.getImageId
 
 /****
@@ -52,7 +52,6 @@ import com.asalcedo.myrecipes.util.Utilities.getImageId
  * All rights reserve 2022.
  ***/
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
@@ -89,12 +88,7 @@ fun ErrorScreen(message: String, viewModel: HomeViewModel) {
     }
 }
 
-@Composable
-fun MyCircularProgressIndicator() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
-    }
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

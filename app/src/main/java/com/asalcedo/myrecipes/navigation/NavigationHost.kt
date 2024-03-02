@@ -54,7 +54,8 @@ fun NavigationHost(
             MapScreen(
                 navController = navHostController,
                 latitude = it.arguments?.getFloat("latitude") ?: 0f,
-                longitude = it.arguments?.getFloat("longitude") ?: 0f
+                longitude = it.arguments?.getFloat("longitude") ?: 0f,
+                recipeName = it.arguments?.getString("recipeName") ?: ""
             )
         }
     }
