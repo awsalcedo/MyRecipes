@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -18,7 +17,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +24,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,6 +41,7 @@ import com.asalcedo.myrecipes.R
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.navigation.NavigationRoute
 import com.asalcedo.myrecipes.ui.screens.components.MyCircularProgressIndicator
+import com.asalcedo.myrecipes.ui.screens.components.SearchView
 import com.asalcedo.myrecipes.util.Utilities.getImageId
 
 /****
@@ -89,47 +88,21 @@ fun ErrorScreen(message: String, viewModel: HomeViewModel) {
 }
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeList(recipes: List<RecipeDomain>, navController: NavController) {
-    val ctx = LocalContext.current
-    var query by remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
-    // Mostrar el SearchBar
-    SearchBar(
-        query = query,
-        onQueryChange = { query = it },
-        onSearch = {
-            Toast.makeText(ctx, query, Toast.LENGTH_SHORT).show()
-            active = true
-        },
-        active = active,
-        onActiveChange = { active = it },
-        modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(8.dp),
-        placeholder = { Text(text = stringResource(R.string.search_a_recipe)) },
-    ) {
-        if (query.isNotEmpty()) {
-            val filterRecipes = recipes.filter { it.name.contains(query, ignoreCase = true) }
-
-            LazyColumn {
-                items(filterRecipes) { recipe ->
-                    RecipeItem(recipe = recipe, navController = navController)
-                }
-            }
-        } else {
-            LazyColumn {
-                items(recipes) { recipe ->
-                    RecipeItem(recipe = recipe, navController = navController)
-                }
-            }
-        }
+    val textState = remember {
+        mutableStateOf(TextFieldValue(""))
     }
-    LazyColumn {
-        items(recipes) { recipe ->
+
+    SearchView(state = textState, placeHolder = "Search here", modifier = Modifier)
+
+    val searchedText = textState.value.text
+
+    LazyColumn(modifier = Modifier.padding(10.dp)) {
+        items(items = recipes.filter {
+            it.name.contains(searchedText, ignoreCase = true)
+        }, key = { it.name }) { recipe ->
             RecipeItem(recipe = recipe, navController = navController)
         }
     }
