@@ -66,6 +66,6 @@ Turbine es una biblioteca de prueba diseñada para simplificar y mejorar las pru
 
 ## Uso
 * Abrir el proyecto en Android Studio y clonar el repositorio del proyecto desde GitHub: https://github.com/awsalcedo/MyRecipes.git
-* Agregar al archivo local.properties la clave GM_API_KEY=AIzaSyCbsaHSqk4leo8lIgoapjf-GEjhhQc3Qns para asegurar la clave de Google Maps, clave proporcionada temporalmente.
+* Agregar al archivo local.properties la clave GM_API_KEY=Clave_del_Api_Key_Google_Maps para asegurar la clave de Google Maps.
 * Ir al menú Build de Android Studio, luego seleccionar la opción del submenú Rebuild Project para volver a generar el BuildConfig.
 * Ejecutar la aplicación.
