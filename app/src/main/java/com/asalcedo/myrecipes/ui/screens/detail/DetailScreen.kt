@@ -1,5 +1,6 @@
 package com.asalcedo.myrecipes.ui.screens.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.navigation.NavigationRoute
+import com.asalcedo.myrecipes.util.ConnectivityObserver
+import com.asalcedo.myrecipes.util.NetworkConnectivityObserver
 import com.asalcedo.myrecipes.util.Utilities.getImageId
 
 /****
@@ -59,6 +63,13 @@ fun DetailScreen(
     var originLatitude by remember { mutableFloatStateOf(0f) }
     var originLongitude by remember { mutableFloatStateOf(0f) }
     var recipeName by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val connectivityObserver = remember { NetworkConnectivityObserver(context) }
+    val status by connectivityObserver.observe().collectAsState(
+        initial = ConnectivityObserver.Status.Unavailable
+    )
+
 
     LaunchedEffect(recipeId) {
         viewModel.getRecipeById(recipeId)
@@ -111,13 +122,19 @@ fun DetailScreen(
 
         FloatingActionButton(
             onClick = {
-                navController.navigate(
-                    NavigationRoute.Map.buildRoute(
-                        originLatitude,
-                        originLongitude,
-                        recipeName
+                if (status == ConnectivityObserver.Status.Available) {
+                    navController.navigate(
+                        NavigationRoute.Map.buildRoute(
+                            originLatitude,
+                            originLongitude,
+                            recipeName
+                        )
                     )
-                )
+                } else {
+                    Toast.makeText(context, "No tiene acceso a Internet", Toast.LENGTH_SHORT).show()
+                }
+
+
             },
             modifier = Modifier
                 .padding(16.dp)
@@ -126,7 +143,6 @@ fun DetailScreen(
             Icon(Icons.Default.Place, contentDescription = "Mapa")
         }
     }
-
 }
 
 @Composable
@@ -207,4 +223,7 @@ fun RecipeDetailScreen(recipe: RecipeDomain) {
 private fun SpacerItem() {
     Spacer(modifier = Modifier.height(16.dp))
 }
+
+
+
 

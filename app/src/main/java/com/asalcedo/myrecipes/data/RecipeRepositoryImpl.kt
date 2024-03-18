@@ -9,6 +9,9 @@ import com.asalcedo.myrecipes.data.network.model.toDomain
 import com.asalcedo.myrecipes.domain.RecipeRepository
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.domain.model.toDomain
+import com.asalcedo.myrecipes.util.RequestState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 /****
@@ -22,13 +25,16 @@ class RecipeRepositoryImpl @Inject constructor(
     private val dao: RecipeDao
 ) :
     RecipeRepository {
-    override suspend fun getRecipesFromApi(): List<RecipeDomain> {
-        return runCatching {
-            apiService.getRecipes().map { it.toDomain() }
-        }.onFailure {
-            Log.i("RecipeRepositoryImpl", "An error has occurred: ${it.message}")
-            throw it
-        }.getOrThrow()
+    override suspend fun getRecipesFromApi(): Flow<RequestState<List<RecipeDomain>>> {
+        return flow {
+            emit(RequestState.Loading)
+            try {
+                val result = apiService.getRecipes().map { it.toDomain() }
+                emit(RequestState.Success(data = result))
+            } catch (e: Exception) {
+                emit(RequestState.Error(e.message ?: "An unexpected error has occurred"))
+            }
+        }
     }
 
     override suspend fun insertRecipesDatabase(recipes: List<RecipeEntity>) {

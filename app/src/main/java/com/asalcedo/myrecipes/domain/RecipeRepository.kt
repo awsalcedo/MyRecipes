@@ -2,6 +2,8 @@ package com.asalcedo.myrecipes.domain
 
 import com.asalcedo.myrecipes.data.local.entities.RecipeEntity
 import com.asalcedo.myrecipes.domain.model.RecipeDomain
+import com.asalcedo.myrecipes.util.RequestState
+import kotlinx.coroutines.flow.Flow
 
 /****
  * Project: MyRecipes
@@ -10,7 +12,9 @@ import com.asalcedo.myrecipes.domain.model.RecipeDomain
  * All rights reserve 2022.
  ***/
 interface RecipeRepository {
-    suspend fun getRecipesFromApi(): List<RecipeDomain>?
+    //suspend fun getRecipesFromApi(): List<RecipeDomain>?
+
+    suspend fun getRecipesFromApi(): Flow<RequestState<List<RecipeDomain>>>
 
     suspend fun getRecipesFromDatabase(): List<RecipeDomain>
 

@@ -58,13 +58,15 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Mostrar la lista de recetas filtradas
-        when (val currentState = state) {
-            is HomeState.Error -> ErrorScreen(currentState.message, viewModel)
-            HomeState.Loading -> MyCircularProgressIndicator()
-            is HomeState.Success -> {
-                RecipeList(recipes = currentState.recipes, navController = navController)
-            }
+        if (state.isLoading()) {
+            MyCircularProgressIndicator()
+        } else if (state.isSuccess()) {
+            RecipeList(
+                recipes = state.getSuccessData(),
+                navController = navController
+            )
+        } else {
+            ErrorScreen(state.getErrorMessage(), viewModel)
         }
     }
 }

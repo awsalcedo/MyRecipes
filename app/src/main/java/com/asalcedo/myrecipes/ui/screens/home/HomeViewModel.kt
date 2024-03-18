@@ -1,9 +1,10 @@
 package com.asalcedo.myrecipes.ui.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.asalcedo.myrecipes.domain.model.RecipeDomain
 import com.asalcedo.myrecipes.domain.usecase.GetRecipesUseCase
+import com.asalcedo.myrecipes.util.RequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +19,8 @@ import javax.inject.Inject
  ***/
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) : ViewModel() {
-    private var _state = MutableStateFlow<HomeState>(HomeState.Loading)
-    val state: StateFlow<HomeState> = _state
+    private var _state = MutableStateFlow<RequestState<List<RecipeDomain>>>(RequestState.Idle)
+    val state: StateFlow<RequestState<List<RecipeDomain>>> = _state
 
     init {
         getRecipes()
@@ -27,17 +28,8 @@ class HomeViewModel @Inject constructor(private val useCase: GetRecipesUseCase) 
 
     fun getRecipes() {
         viewModelScope.launch {
-            try {
-                val result = useCase()
-                if (result.isNotEmpty()) {
-                    _state.value = HomeState.Success(result)
-                } else {
-                    _state.value =
-                        HomeState.Error("Failed to load recipes. Please try again later.")
-                }
-            } catch (e: Exception) {
-                _state.value = HomeState.Error("An unexpected error occurred.")
-                Log.e("HomeViewModel", "Unexpected error", e)
+            useCase().collect { requestState ->
+                _state.value = requestState
             }
         }
     }
