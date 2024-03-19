@@ -17,7 +17,7 @@ Está diseñada siguiendo los principios de Clean Architecture y SOLID, y utiliz
 - Clean Architecture: El proyecto está estructurado siguiendo el patrón de Clean Architecture, lo que facilita la separación de responsabilidades y mejora la mantenibilidad del código.
 - SOLID: Los principios SOLID (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) se aplican en el diseño de la aplicación para promover un código limpio, modular y extensible.
 - Inyección de Dependencias - Dagger-Hilt: Se utiliza Dagger-Hilt para realizar la inyección de dependencias, lo que simplifica la gestión de las dependencias y permite una mejor escalabilidad y prueba unitaria del código.
-- Jetpack Compose: La interfaz de usuario se desarrolla utilizando Jetpack Compose, el moderno toolkit de UI de Android que facilita la creación de interfaces de usuario flexibles y dinámicas.
+- Jetpack Compose: La interfaz de usuario se desarrolla utilizando Jetpack Compose (SnackBar), el moderno toolkit de UI de Android que facilita la creación de interfaces de usuario flexibles y dinámicas.
 - Room: Se utiliza Room, la biblioteca de persistencia de Android, para almacenar los datos de los recetas en una base de datos local y permitir un acceso rápido y eficiente a ellos.
 - Retrofit: Se utiliza Retrofit para realizar las llamadas a una API remota y obtener datos relacionados con los hábitos, lo que permite una sincronización eficiente y actualizada de la información.
 - Unit Test: Se incluyen pruebas unitarias para verificar el correcto funcionamiento de los componentes clave de la aplicación y garantizar la calidad del código.
